@@ -1,4 +1,4 @@
-package com.Smart_Health.Smart_Health_Backend.Report.Entity;
+package com.Smart_Health.Smart_Health_Backend.Report_microService.Entity;
 
 
 import jakarta.persistence.*;
