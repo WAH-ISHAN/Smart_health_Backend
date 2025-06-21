@@ -1,8 +1,8 @@
-package com.Smart_Health.Smart_Health_Backend.Services;
+package com.Smart_Health.Smart_Health_Backend.Report.Services;
 
-import com.Smart_Health.Smart_Health_Backend.Entity.Report;
-import com.Smart_Health.Smart_Health_Backend.Entity.ReportType;
-import com.Smart_Health.Smart_Health_Backend.Repository.ReportRepository;
+import com.Smart_Health.Smart_Health_Backend.Report.Entity.Report;
+import com.Smart_Health.Smart_Health_Backend.Report.Entity.ReportType;
+import com.Smart_Health.Smart_Health_Backend.Report.Repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

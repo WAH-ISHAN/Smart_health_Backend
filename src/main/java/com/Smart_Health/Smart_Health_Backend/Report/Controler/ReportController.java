@@ -1,9 +1,9 @@
-package com.Smart_Health.Smart_Health_Backend.Controler;
+package com.Smart_Health.Smart_Health_Backend.Report.Controler;
 
 
-import com.Smart_Health.Smart_Health_Backend.Entity.Report;
-import com.Smart_Health.Smart_Health_Backend.Entity.ReportType;
-import com.Smart_Health.Smart_Health_Backend.Services.ReportService;
+import com.Smart_Health.Smart_Health_Backend.Report.Entity.Report;
+import com.Smart_Health.Smart_Health_Backend.Report.Entity.ReportType;
+import com.Smart_Health.Smart_Health_Backend.Report.Services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
