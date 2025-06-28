@@ -14,7 +14,12 @@ public class WebSecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/login", "/users/register").permitAll()
+                        .requestMatchers(
+                                "/users/login",
+                                "/users/register",
+                                "/api/feedback",            // Allow GET
+                                "/api/feedback/**"          // Allow POST/GET/DELETE by ID etc.
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
