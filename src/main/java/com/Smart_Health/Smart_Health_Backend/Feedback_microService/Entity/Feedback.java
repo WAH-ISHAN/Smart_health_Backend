@@ -1,8 +1,6 @@
 package com.Smart_Health.Smart_Health_Backend.Feedback_microService.Entity;
 
 import jakarta.persistence.*;
-
-
 import java.time.LocalDate;
 
 @Entity
@@ -13,9 +11,16 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_name", nullable = false, length = 100)
     private String userName;
+
+    @Column(name = "email", nullable = false, length = 150)
     private String email;
+
+    @Column(name = "message", columnDefinition = "TEXT")
     private String message;
+
+    @Column(name = "date")
     private LocalDate date;
 
     // Getters and Setters
