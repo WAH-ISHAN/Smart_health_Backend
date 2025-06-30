@@ -10,10 +10,10 @@ public class Appointment
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     private Long id;
 
-    @Column
+    @Column (name = "id")
     private Long userId;
 
     @Column
