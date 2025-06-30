@@ -10,26 +10,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/doctor")
+@CrossOrigin(origins = "http://localhost:5173") // Set this to your React dev server port
 public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
 
     // Get all doctors
-    @GetMapping(path= "/doctor")
+    @GetMapping
     public List<Doctors> getAllStudent()
     {
         return doctorService.getAllDoctors();
     }
 
     // Get doctor by id
-    @GetMapping(path="/doctor/{id}")
+    @GetMapping(path="/{id}")
     public Doctors getDoctorById(@PathVariable int id) {
         return doctorService.getDoctorById(id);
     }
 
     // Get doctor by hospital
-    @GetMapping(path = "/doctor/hospital/{hospital}")
+    @GetMapping(path = "/hospital/{hospital}")
     public ResponseEntity<Doctors> getDoctorByHospital(@PathVariable String hospital) {
         Doctors doctor = doctorService.getDoctorByHospital(hospital);
         if (doctor != null) {
@@ -39,7 +41,7 @@ public class DoctorController {
     }
 
     // Get doctors by specialization
-    @GetMapping("/doctor/speciality/{speciality}")
+    @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctors>> getDoctorsBySpeciality(
             @PathVariable String speciality) {
         List<Doctors> doctors = doctorService.getDoctorsBySpeciality(speciality);
@@ -50,7 +52,7 @@ public class DoctorController {
     }
 
     // Get doctors by status
-    @GetMapping("/doctor/status/{status}")
+    @GetMapping("/status/{status}")
     public ResponseEntity<List<Doctors>> getDoctorsByStatus(
             @PathVariable String status) {
         List<Doctors> doctors = doctorService.getDoctorsByStatus(status);

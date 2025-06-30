@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/feedback")
+@CrossOrigin(origins = "http://localhost:5173") // Set this to your React dev server port
 public class FeedbackController {
 
     @Autowired
