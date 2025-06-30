@@ -17,8 +17,22 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/users/login",
                                 "/users/register",
-                                "/api/feedback",            // Allow GET
-                                "/api/feedback/**"          // Allow POST/GET/DELETE by ID etc.
+
+                                // Feedback endpoints
+                                "/api/feedback",
+                                "/api/feedback/**",
+
+                                // Doctor endpoints
+                                "/doctor",
+                                "/doctor/**",
+
+                                // Hospital endpoints
+                                "/api/hospitals",
+                                "/api/hospitals/**",
+
+                                // Report endpoints
+                                "/reports",
+                                "/reports/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
