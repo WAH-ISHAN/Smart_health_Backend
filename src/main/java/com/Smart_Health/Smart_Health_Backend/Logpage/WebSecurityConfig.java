@@ -15,22 +15,25 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/users/login",
-                                "/users/register",
+                                // 🔐 Login/Register endpoints
+                                "/api/users/login",
+                                "/api/users/register",
+                                "/api/users/register/admin",
 
-                                // Feedback endpoints
+
+                                // 📝 Feedback endpoints
                                 "/api/feedback",
                                 "/api/feedback/**",
 
-                                // Doctor endpoints
+                                // 👨‍⚕️ Doctor endpoints
                                 "/doctor",
                                 "/doctor/**",
 
-                                // Hospital endpoints
+                                // 🏥 Hospital endpoints
                                 "/api/hospitals",
                                 "/api/hospitals/**",
 
-                                // Report endpoints
+                                // 📄 Report endpoints
                                 "/reports",
                                 "/reports/**"
                         ).permitAll()
