@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class HospitalService {
+
     @Autowired
     private HospitalRepository repository;
 
@@ -36,5 +37,11 @@ public class HospitalService {
 
     public void deleteHospital(Long id) {
         repository.deleteById(id);
+    }
+
+    // New method: search hospitals by name or location ignoring case
+    public List<Hospital> searchHospitals(String search) {
+        String keyword = search.toLowerCase();
+        return repository.searchHospitals(keyword);
     }
 }
