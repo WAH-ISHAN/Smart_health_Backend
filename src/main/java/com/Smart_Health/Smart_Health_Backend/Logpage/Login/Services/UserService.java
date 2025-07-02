@@ -15,10 +15,9 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User registerUser(User user) {
-        // Password hash කරන්න
+        // Hash password before saving
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-
         return userRepository.save(user);
     }
 
@@ -26,7 +25,6 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    // Password verify function
     public boolean checkPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }

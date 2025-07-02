@@ -1,9 +1,7 @@
 package com.Smart_Health.Smart_Health_Backend.Logpage.Login.Controller;
 
 import com.Smart_Health.Smart_Health_Backend.Logpage.Login.Enitiy.User;
-import com.Smart_Health.Smart_Health_Backend.Logpage.Login.JwtUtil;
 import com.Smart_Health.Smart_Health_Backend.Logpage.Login.Services.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +10,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173") // React dev server
+@CrossOrigin(origins = "http://localhost:5173")  // React dev server URL
 public class AuthController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody Map<String, String> loginData) {
@@ -34,11 +29,10 @@ public class AuthController {
                 userService.checkPassword(rawPassword, foundUser.getPassword()) &&
                 foundUser.getRole().equalsIgnoreCase(role)) {
 
-            String token = jwtUtil.generateToken(email, role);
-
             response.put("message", "Login successful!");
             response.put("role", foundUser.getRole());
-            response.put("token", token);
+            response.put("email", foundUser.getEmail());
+            response.put("username", foundUser.getUsername());
 
         } else {
             response.put("message", "Invalid email, password or role!");
@@ -56,7 +50,7 @@ public class AuthController {
             return response;
         }
 
-        user.setRole("user");  // public registration only user role allowed
+        user.setRole("user");  // default role
         userService.registerUser(user);
         response.put("message", "Registration successful!");
         return response;
