@@ -1,3 +1,4 @@
+// DoctorService.java
 package com.Smart_Health.Smart_Health_Backend.Doctor_microService.Service;
 
 import com.Smart_Health.Smart_Health_Backend.Doctor_microService.data.DoctorRepository;
@@ -6,74 +7,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class DoctorService
-{
+public class DoctorService {
+
     @Autowired
     private DoctorRepository docRepo;
 
-    // Get all doctors
     public List<Doctors> getAllDoctors() {
         return docRepo.findAll();
     }
 
-    // Get doctor by id
     public Doctors getDoctorById(int id) {
-        Optional<Doctors> doc =
-                docRepo.findById(id);
-        if(doc.isPresent()){
-            return doc.get();
-        }
-        return null;
+        return docRepo.findById(id).orElse(null);
     }
 
-    // Get doctor by hospital
-    public Doctors getDoctorByHospital(String hospital) {
-        Optional<Doctors> doc = docRepo.findByHospital(hospital);
-        return doc.orElse(null); // Return null if not found
+    // *** NEW : return list ***
+    public List<Doctors> getDoctorsByHospital(String hospital) {
+        return docRepo.findAllByHospitalIgnoreCase(hospital);
     }
 
-    // Get doctors by specialization
     public List<Doctors> getDoctorsBySpeciality(String speciality) {
-        return docRepo.findBySpeciality(speciality);
+        return docRepo.findBySpecialityIgnoreCase(speciality);
     }
 
-    // Get doctors by status
     public List<Doctors> getDoctorsByStatus(String status) {
-        return docRepo.findByStatus(status);
+        return docRepo.findByStatusIgnoreCase(status);
     }
 
-    // Create doctor
     public Doctors createDoctor(Doctors doctor) {
         return docRepo.save(doctor);
     }
 
-    // Update doctor
     public Doctors updateDoctor(int id, Doctors doctorDetails) {
-        Optional<Doctors> optionalDoctor = docRepo.findById(id);
-        if (optionalDoctor.isPresent()) {
-            Doctors existingDoctor = optionalDoctor.get();
-            existingDoctor.setName(doctorDetails.getName());
-            existingDoctor.setGender(doctorDetails.getGender());
-            existingDoctor.setSpeciality(doctorDetails.getSpeciality());
-            existingDoctor.setHospital(doctorDetails.getHospital());
-            return docRepo.save(existingDoctor);
-        }
-        return null; // Return null if the doctor does not exist
+        return docRepo.findById(id).map(existing -> {
+            existing.setName(doctorDetails.getName());
+            existing.setGender(doctorDetails.getGender());
+            existing.setSpeciality(doctorDetails.getSpeciality());
+            existing.setHospital(doctorDetails.getHospital());
+            existing.setStatus(doctorDetails.getStatus());
+            return docRepo.save(existing);
+        }).orElse(null);
     }
 
-    // Delete doctor by id
     public boolean deleteDoctor(int id) {
-        Optional<Doctors> doctor = docRepo.findById(id);
-        if (doctor.isPresent()) {
+        if (docRepo.existsById(id)) {
             docRepo.deleteById(id);
             return true;
         }
         return false;
     }
-
-
-
 }

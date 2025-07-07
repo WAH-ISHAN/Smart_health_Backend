@@ -1,3 +1,4 @@
+// DoctorController.java
 package com.Smart_Health.Smart_Health_Backend.Doctor_microService.controller;
 
 import com.Smart_Health.Smart_Health_Backend.Doctor_microService.Service.DoctorService;
@@ -10,77 +11,67 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/doctor")
-@CrossOrigin(origins = "http://localhost:5173") // Your React dev server
+@CrossOrigin(origins = "http://localhost:5173")   // React dev server
 public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
 
-    // Get all doctors
+    // ── All doctors ───────────────────────────────
     @GetMapping
     public List<Doctors> getAllDoctors() {
         return doctorService.getAllDoctors();
     }
 
-    // Get doctor by id
-    @GetMapping(path = "/{id}")
-    public Doctors getDoctorById(@PathVariable int id) {
-        return doctorService.getDoctorById(id);
+    // ── By id ─────────────────────────────────────
+    @GetMapping("/{id}")
+    public ResponseEntity<Doctors> getDoctorById(@PathVariable int id) {
+        Doctors doc = doctorService.getDoctorById(id);
+        return (doc != null) ? ResponseEntity.ok(doc) : ResponseEntity.notFound().build();
     }
 
-    // Get doctor by hospital
-    @GetMapping(path = "/hospital/{hospital}")
-    public ResponseEntity<Doctors> getDoctorByHospital(@PathVariable String hospital) {
-        Doctors doctor = doctorService.getDoctorByHospital(hospital);
-        if (doctor != null) {
-            return ResponseEntity.ok(doctor);
-        }
-        return ResponseEntity.notFound().build();
+    // ── By hospital  → **return list** ────────────
+    @GetMapping("/hospital/{hospital}")
+    public ResponseEntity<List<Doctors>> getDoctorsByHospital(@PathVariable String hospital) {
+        List<Doctors> doctors = doctorService.getDoctorsByHospital(hospital);
+        return doctors.isEmpty() ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(doctors);
     }
 
-    // Get doctors by specialization
+    // ── By speciality ─────────────────────────────
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctors>> getDoctorsBySpeciality(@PathVariable String speciality) {
         List<Doctors> doctors = doctorService.getDoctorsBySpeciality(speciality);
-        if (!doctors.isEmpty()) {
-            return ResponseEntity.ok(doctors);
-        }
-        return ResponseEntity.notFound().build();
+        return doctors.isEmpty() ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(doctors);
     }
 
-    // Get doctors by status
+    // ── By status ─────────────────────────────────
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Doctors>> getDoctorsByStatus(@PathVariable String status) {
         List<Doctors> doctors = doctorService.getDoctorsByStatus(status);
-        if (!doctors.isEmpty()) {
-            return ResponseEntity.ok(doctors);
-        }
-        return ResponseEntity.notFound().build();
+        return doctors.isEmpty() ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(doctors);
     }
 
-    // Create doctor
+    // ── Create ────────────────────────────────────
     @PostMapping
     public Doctors createDoctor(@RequestBody Doctors doctor) {
         return doctorService.createDoctor(doctor);
     }
 
-    // Update doctor
-    @PutMapping(path = "/{id}")
+    // ── Update ────────────────────────────────────
+    @PutMapping("/{id}")
     public ResponseEntity<Doctors> updateDoctor(@PathVariable int id, @RequestBody Doctors doctorDetails) {
-        Doctors updatedDoctor = doctorService.updateDoctor(id, doctorDetails);
-        if (updatedDoctor != null) {
-            return ResponseEntity.ok(updatedDoctor);
-        }
-        return ResponseEntity.notFound().build();
+        Doctors updated = doctorService.updateDoctor(id, doctorDetails);
+        return (updated != null) ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 
-    // Delete doctor by id
-    @DeleteMapping(path = "/{id}")
+    // ── Delete ────────────────────────────────────
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDoctor(@PathVariable int id) {
-        boolean deleted = doctorService.deleteDoctor(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        return doctorService.deleteDoctor(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }
