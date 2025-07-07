@@ -3,6 +3,8 @@ package com.Smart_Health.Smart_Health_Backend.Notification.Services;
 import com.Smart_Health.Smart_Health_Backend.Notification.Entity.Notification;
 import com.Smart_Health.Smart_Health_Backend.Notification.Repo.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,4 +33,21 @@ public class NotificationService {
             // No need to call save() as the entity is managed in the transaction
         });
     }
+
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    public void sendAppointmentEmail(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("smarthealthhospitals@gmail.com");
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+
+        mailSender.send(message);
+    }
 }
+
+
+
