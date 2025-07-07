@@ -22,7 +22,7 @@ public class DoctorService {
         return docRepo.findById(id).orElse(null);
     }
 
-    // *** NEW : return list ***
+    // *** NEW : return list  ***
     public List<Doctors> getDoctorsByHospital(String hospital) {
         return docRepo.findAllByHospitalIgnoreCase(hospital);
     }
